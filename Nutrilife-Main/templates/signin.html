@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Healthy Lifestyle</title>
+    {% load static %}  <!-- Load the static template tag -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+            background-color: #fff;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            align-items: stretch;
+            height: 100vh;
+            background-color: #7db57f; /* Green background */
+        }
+        .signup-btn:hover{
+            color: black;
+        }
+        .left {
+            flex: 1;
+            padding: 60px;
+            color: #fff; /* White text */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .left h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 15px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%; /* Ensure inputs take full width */
+            outline: none;
+        }
+
+        button {
+            padding: 15px;
+            background-color: #fff; /* White background */
+            color: #5e8b60; /* Green text */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s, color 0.3s;
+            width: 100%; /* Ensure button takes full width */
+        }
+        .logo img{
+            width: 80px;
+        }
+        button:hover {
+            background-color: #7db57f; /* Green background on hover */
+            color: #fff; /* White text on hover */
+        }
+
+        .toggle-link {
+            margin-top: 20px;
+        }
+
+        .toggle-link a {
+            color: #fff; /* White text */
+        }
+
+        .right {
+            flex: 1;
+            display: flex;
+        }
+
+        .right img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .error-message {
+            color: rgb(234, 36, 36); /* Red color for error messages */
+            margin-top: 10px;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column; /* Stack elements vertically */
+                height: auto; /* Allow height to adjust */
+            }
+
+            .left {
+                padding: 40px; /* Reduce padding on smaller screens */
+            }
+
+            .left h1 {
+                font-size: 36px; /* Smaller font size for heading */
+            }
+
+            input, button {
+                font-size: 16px; /* Consistent font size for inputs and button */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .left h1 {
+                font-size: 28px; /* Further decrease heading size */
+            }
+
+            input {
+                padding: 12px; /* Adjust padding for input fields */
+            }
+
+            button {
+                padding: 12px; /* Adjust padding for button */
+            }
+
+            .left {
+                padding: 20px; /* Further reduce padding */
+            }
+        }
+        .eye-icon {
+            cursor: pointer;
+            position: absolute;
+            right: 15px;
+        }
+        .eye-closed {
+            display: block;
+            width: 30px;
+            margin-top: 15px;
+        }
+        /* Hide open-eye icon initially */
+        .eye-open {
+            display: none;
+            width: 30px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+
+
+
+    <section class="container">
+        <div class="left">
+            <h1>Sign In</h1>
+            <form id="signinForm" class="signinForm" method="POST" action="">
+                {% csrf_token %}  <!-- Include CSRF token for security -->
+                <input type="text" id="email" name="email" placeholder="Username" required>
+                <div style="position: relative;">
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <span class="eye-icon">
+                        <img src="{% static 'images/opened.png' %}" id="eye-closed-password" class="eye-closed" onclick="togglePasswordVisibility('password')">
+                        <img src="{% static 'images/closed.png' %}" id="eye-open-password" class="eye-open" onclick="togglePasswordVisibility('password')">
+                    </span>
+                </div>
+                <button type="submit">Sign In</button>
+                <p class="toggle-link">Don't have an account? <a href="{% url 'signup' %}" class="signup-btn">Sign Up</a></p>
+                <div id="errorMessage" class="error-message"></div>
+            </form>
+        </div>
+        <div class="right">
+            <img src="{% static 'images/signin-img.jpg' %}" alt="Healthy Cooking">
+        </div>
+    </section>
+    <script>
+        function togglePasswordVisibility(inputId) {
+            var passwordField = document.getElementById(inputId);
+            var eyeOpen = document.getElementById('eye-open-' + inputId);
+            var eyeClosed = document.getElementById('eye-closed-' + inputId);
+            var fieldType = passwordField.type;
+
+            if (fieldType === "password") {
+                passwordField.type = "text"; // Change to text to show password
+                eyeOpen.style.display = "block"; // Hide open eye
+                eyeClosed.style.display = "none"; // Show closed eye
+            } else {
+                passwordField.type = "password"; // Change back to password to hide it
+                eyeOpen.style.display = "none"; // Show open eye
+                eyeClosed.style.display = "block"; // Hide closed eye
+            }
+        }
+
+        document.getElementById("signinForm").addEventListener("submit", function (e) {
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const errorMessage = document.getElementById("errorMessage");
+
+            errorMessage.textContent = ""; // Clear previous errors
+
+            // Validate email/username
+            if (!email) {
+                errorMessage.textContent = "Please enter your email or username.";
+                e.preventDefault();
+                return;
+            }
+
+            // Validate password
+            if (password.length < 6) {
+                errorMessage.textContent = "Password must be at least 6 characters long.";
+                e.preventDefault();
+                return;
+            }
+        });
+    </script>
+  
+</body>
+</html>

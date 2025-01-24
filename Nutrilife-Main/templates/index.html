@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Healthy Lifestyle</title>
+        {% load static %}
+        <style>
+            /* CSS code unchanged, systematically arranged */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Arial', sans-serif;
+            }
+
+            .main {
+                display: flex;
+                align-items: stretch;
+                justify-content: space-between;
+                height: calc(116vh - 120px);
+                padding: 0;
+                background-color: #7db57f;
+                
+            }
+
+            .main-withNav {
+                height: calc(108vh - 120px);
+            }
+
+            .left {
+                flex: 1;
+                padding: 60px;
+                color: #fff;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .left h1 {
+                font-size: 48px;
+                color: #fff;
+                margin-bottom: 20px;
+            }
+
+            .left p {
+                color: #fff;
+                line-height: 1.6;
+                margin-bottom: 10px;
+            }
+
+            .source {
+                font-size: 12px;
+                color: #fff;
+                margin-bottom: 30px;
+            }
+            .logo img{
+                width: 80px;
+            }
+            button {
+                padding: 20px 40px;
+                background-color: #7db57f;
+                color: #fff;
+                font-size: 20px;
+                border: 2px solid #fff;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s, color 0.3s;
+                width: calc(100vh - 120px);
+            }
+
+            button:hover {
+                background-color: #fff;
+                color: #5e8b60;
+            }
+
+            .right {
+                flex: 1;
+                display: flex;
+            }
+
+            .right img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .description {
+                text-align: justify;
+            }
+
+            a {
+                text-decoration: none;
+                color: #1e1d1d;
+                font-weight: bold;
+                transition: background-color 0.3s, color 0.3s;
+            }
+
+            a:hover {
+                color: #ffffff;
+            }
+
+            .logo {
+                font-size: 24px;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-left: 20px;
+            }
+
+            .logo-img {
+                height: 35px;
+                margin-left: 20px;
+        
+            }
+
+            .navbar {
+                padding: 20px 40px;
+                transition: background-color 0.3s, color 0.3s;
+            }
+
+            .navbar a:hover {
+                color: #5e8b60;
+            }
+
+            nav ul {
+                list-style: none;
+                display: flex;
+                gap: 30px;
+            }
+
+            nav ul li a {
+                text-decoration: none;
+                color: #333;
+                font-weight: bold;
+            }
+
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #fff;
+                font-family: 'Roboto', sans-serif;
+                font-weight: 100;
+            }
+
+            @media (max-width: 768px) {
+                .main {
+                    flex-direction: column;
+                    height: auto;
+                }
+
+                .left {
+                    padding: 30px;
+                }
+
+                .left h1 {
+                    font-size: 36px;
+                }
+
+                button {
+                    width: 100%;
+                }
+
+                .source {
+                    font-size: 14px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .left h1 {
+                    font-size: 28px;
+                }
+
+                button {
+                    padding: 15px;
+                }
+
+                .left p, .source {
+                    font-size: 14px;
+                }
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 100;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v32/KFOkCnqEu92Fr1MmgVxFIzIFKw.woff2) format('woff2');
+                unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+            }
+
+            /* Additional font-face definitions here */
+        </style>
+        <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <img src="{% static 'images/logo.svg' %}" alt="NutriLife">
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="{% url 'signup' %}">Signup</a></li>
+                    <li><a href="{% url 'signin' %}">Signin</a></li>
+                </ul>
+            </nav>
+        </header>
+        <section class="main main-withNav">
+            <div class="left">
+                <h1>Be healthy, enjoy life!</h1>
+                <p class="description">Discover a personalized meal plan designed to meet your dietary goals, preferences, and health needs. Start eating smarter with balanced, nutritious recipes tailored just for you!</p>
+                <p class="source">Already have an account? <a href="{% url 'signin' %}">Sign in</a></p>
+                <a href="{% url 'signup' %}" class="join-btn-link">
+                    <button id="joinBtn">Join Now</button>
+                </a>
+            </div>
+            <div class="right">
+                <img src="{% static 'images/index-img.jpg' %}" alt="Woman eating salad">
+            </div>
+        </section>
+    </body>
+</html>

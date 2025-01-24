@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Diet Meal Plan</title>
+    {% load static %}  <!-- Load the static tag -->
+    
+    <style>
+        
+html {
+    scroll-behavior: smooth; /* Enable smooth scrolling */
+}
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            
+            
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #d3ebd3;
+            color: #333; /* Dark text color */
+        }
+
+        /* Navbar Styles */
+        nav {
+            /* background-color: #5e8b60; */
+            background:linear-gradient( #84b486 , #b6d6b7 ); /* Green navbar */
+
+            /* background-color: #7db57f; */
+            padding: 15px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo img{
+            width: 80px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: #fff; /* White text */
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #ddd; /* Light gray on hover */
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #fff; /* White text */
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 800px;
+            margin: 100px auto;
+            padding: 40px;
+            background-color: #ffffff; /* White background */
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #5e8b60; /* Green heading */
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #5e8b60; /* Green heading */
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333; /* Dark text */
+        }
+
+        .get-started-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #5e8b60; /* Green button */
+            color: #fff; /* White text */
+            font-size: 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .get-started-btn:hover {
+            background-color: #4a7b4e; /* Darker green on hover */
+        }
+
+        /* Image styles */
+        .hero-image, .feature img {
+            width: 200px; /* Set a uniform width */
+            height: 200px; /* Set a uniform height */
+            border-radius: 12px; /* Rounded corners */
+            object-fit: cover; /* Maintain aspect ratio */
+            margin-bottom: 20px;
+        }
+
+        /* Features Section */
+        .features-container {
+            max-width: 100%;
+
+            padding: 20px;
+
+            text-align: center;
+        }
+
+        .features-container h2 {
+            font-size: 36px;
+        }
+        
+        .features-container p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #555; /* Darker gray text */
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .feature {
+            flex: 1;
+            min-width: 300px;
+            background-color: #f9f9f9; /* Light gray background */
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nutritional-targets {
+            background-color: #e0f7fa; /* Light blue background */
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .nutritional-targets .calories {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333; /* Dark text */
+        }
+
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .feature h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        /* Media Queries for Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .get-started-btn {
+                font-size: 18px;
+            }
+
+            .nav-menu {
+                display: none; /* Hide menu on small screens */
+                flex-direction: column; /* Stack items vertically */
+                position: absolute; /* Position it absolutely */
+                top: 60px; /* Position below the navbar */
+                left: 0;
+                width: 100%;
+                /* background-color: #7db57f;Green background */
+                background:linear-gradient( #84b486 , #b6d6b7 ); /* Green navbar */
+
+                z-index: 999; /* Ensure it appears above other content */
+            }
+
+            .nav-menu.show {
+                display: flex; /* Show menu when toggled */
+            }
+
+            .menu-toggle {
+                display: block; /* Show toggle button */
+            }
+        }
+        .black-color{
+            color: black;
+        }
+        .features-box{
+            margin-bottom: 10px;
+            
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 100; /* Set desired font weight */
+            -webkit-font-smoothing: antialiased; /* For WebKit browsers */
+            -moz-osx-font-smoothing: grayscale; /* For Firefox on macOS */
+            font-smooth: always; /* Not widely supported, but included */
+        }
+        
+        .form-group label {
+            font-size: 22px;
+            display: block;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            outline: none;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        
+        #activity {
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .activity-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-top: 5px;
+            color: #333;
+        }
+        
+        button.get-started-btn {
+            width: 100%;
+            text-align: center;
+            padding: 15px;
+            background-color: white;
+            color: #5e8b60;
+        }
+        button.get-started-btn:hover {
+            color: white;
+            background-color: #5e8b60;
+        }
+        #generate{
+            background-color: #5e8b60;
+        }
+        /* Style for the slider container */
+.slider-container {
+    position: relative;
+    margin-top: 15px;
+}
+
+
+#generate{
+    margin-top: 60px;
+}
+.generate-container {
+    display: flex;
+    align-items: flex-start; /* Align items to the start vertically */
+    flex-wrap: wrap; /* Allow wrapping for responsive design */
+}
+
+.generate-container form {
+    flex: 1; /* Allow the form to take the remaining space */
+    margin-right: 20px; /* Adjust margin to provide more space */
+    min-width: 300px; /* Minimum width to keep the form readable */
+    
+}
+
+.generate-image {
+    width: 41%; /* Set image width */
+    height: auto; /* Adjust height to maintain aspect ratio */
+    margin-top: 2%;
+}
+
+/* Adjust width and padding for input fields */
+.form-group input,
+.form-group select {
+    width: 100%; /* Full width of the parent container */
+    padding: 12px; /* Increase padding for better UX */
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 600px) {
+    .generate-container {
+        flex-direction: column; /* Stack elements vertically on small screens */
+        align-items: center; /* Center items on small screens */
+    }
+    
+    .generate-container form {
+        margin-right: 0; /* Remove right margin in stacked view */
+        width: 100%; /* Ensure form is full width */
+        margin-bottom: 10px; /* Add some space below the form */
+    }
+    
+    .generate-image {
+        width: 100%; /* Ensure image is full width on small screens */
+        height: auto; /* Maintain aspect ratio */
+    }
+}
+
+        .collapsible {
+            background-color: #7db57f; ;
+          color: white;
+          cursor: pointer;
+          padding: 18px;
+          width: 100%;
+          border: none;
+          text-align: left;
+          outline: none;
+          font-size: 20px;
+          border-radius: 10px;
+          margin-top: 20px;
+        }
+        .coll-text {
+            display: flex;
+         justify-content: space-between; /* This ensures space between text and the plus icon */
+         align-items: center; /* Aligns the items vertically */
+        }
+
+        .more-img {
+            margin-left: 10px; /* Adds a little space between the text and the icon */
+        }
+        .more{
+            height: 20px;
+            align-items: right;
+        }
+        .active, .collapsible:hover {
+            background-color: #70a371; ;
+        }
+        
+        .content {
+          padding: 0 18px;
+          display: none;
+          overflow: hidden;
+          background-color: #f1f1f1;
+        }
+        .frequent-question{
+            margin-top: 30px;
+        }
+        .image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .image-container .image-name {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 10px;
+            padding: 5px;
+            opacity: 0;
+            transition: opacity 0.1s ease;
+        }
+        .features p{
+            text-align: justify;
+        }
+        .image-container:hover .image-name {
+            opacity: 0.8;
+        }
+
+        .nav-menu img {
+            height: 30px;
+            width: 80px;
+        }
+        .get-started-btn {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .get-started-btn:hover {
+            transform: scale(1.1);
+        }
+        
+
+
+.features-container h2 {
+  font-size: 36px;
+  font-weight: bold;
+  color: #5e8b60;
+  margin-bottom: 10px;
+}
+
+.features-container p {
+  font-size: 18px;
+  color: #444;
+  margin-bottom: 40px;
+}
+
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.feature {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  border-top: 4px solid #5e8b60;
+}
+
+.feature:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+.collapsible {
+  transition: background 0.3s ease, box-shadow 0.3s;
+}
+.more {
+  transition: transform 0.3s;
+}
+
+.collapsible:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.collapsible.active .more {
+  transform: rotate(45deg); /* Changes "+" to "×" icon */
+}
+
+        </style>
+        
+</head>
+<body>
+    {% csrf_token %}
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">
+            <img src="{% static 'images/logo.svg' %}" alt="NutriLife">
+        </div>
+        <div class="menu-toggle" id="menuToggle">☰</div>
+        <div class="nav-menu" id="navMenu">
+            <div class="image-container">
+                <a href="{% url 'home' %}#home">
+                    <img src="{% static 'images/home.svg' %}" alt="Home">
+                    <div class="image-name">Home</div>
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="{% url 'home' %}#diet-plans">
+                    <img src="{% static 'images/menubook.svg' %}" alt="Diet-Plans">
+                    <div class="image-name">Diet-Plans</div>
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="{% url 'home' %}#features">
+                    <img src="{% static 'images/features.svg' %}" alt="Features">
+                    <div class="image-name">Features</div>
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="{% url 'edit' %}">
+                    <img src="{% static 'images/edit.svg' %}" alt="Edit">
+                    <div class="image-name">Edit</div>
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="{% url 'index' %}">
+                    <img src="{% static 'images/logout.svg' %}" alt="Logout">
+                    <div class="image-name">Logout</div>
+                </a>
+            </div>
+        </div>
+    </nav>
+    {% csrf_token %}
+    <div class="container" id="home">
+        <img src="{% static 'images/logo.png' %}" alt="Healthy Food" class="hero-image">
+        <h1 class="black-color">Welcome, {{ profile.full_name }}</h1>
+        <p><span class="paragraph">
+            Calorie and Macro Meal Planner. Serve up recipes for your personalized meal plan automatically. 
+            Calculate your nutritional needs and generate custom diet plans for weight</span> loss, bodybuilding, and much more!
+        </p>
+        <a href="{% url 'userinfo' %}" class="get-started-btn">Get Started</a>
+    </div>
+
+
+
+    
+    <!-- Features Section -->
+    <div class="features-container" id="diet-plans">
+        <br><br>
+        <h2 class="black-color">Custom Diet Plans For Your Needs</h2>
+        <p>Personalize the meal plan to meet your needs</p>
+        <div class="features">
+            <div class="feature">
+                <div class="icon-container">
+                    <img src="{% static 'images/custom-nutritional-traget.png' %}" alt="Dietary Needs Icon">
+                </div>
+                <h3 class="black-color">Custom Nutritional Targets</h3>
+                <p class="paragraph">
+                    We take the hard work out of setting up your nutritional targets, but in some cases, you may want to make some adjustments.
+                    Once your diet is set up, you may edit the nutritional targets for each individual day.
+                </p>
+            </div>
+
+            <div class="feature">
+                <div class="icon-container">
+                    <img src="{% static 'images/dietry-needs.png' %}" alt="Dietary Needs Icon">
+                </div>
+                <h3 class="black-color">Dietary Needs</h3>
+                <p class="paragraph">
+                    Does your meal plan need to be Vegan, Gluten-free, Halal, or subject to any other form of dietary restriction?
+                    When setting up your meal plan, you can program the meal planner to only find foods suitable for your personal needs.
+                </p>
+            </div>
+
+            <div class="feature">
+                <div class="icon-container">
+                    <img src="{% static 'images/additional-meal-preference.png' %}" alt="Adjust Meal Preferences Icon">
+                </div>
+                <h3 class="black-color">Adjust Meal Preferences</h3>
+                <p class="paragraph">
+                    Would you rather have your breakfast to be a meal replacement drink because you don’t have much time in the morning?
+                    You can adapt our recipe finder settings to ensure that we find the most appropriate recipes.
+                </p>
+            </div>
+        </div>      
+    </div>
+
+    <div class="features-container" id="features">
+        <br><br>
+        <h2 class="black-color">Save Time & Eat Better</h2>
+        <p>Take the stress out of meal planning and stick to your plan.</p>
+
+        <div class="features">
+            <div class="feature">
+                <div class="icon-container">
+                    <img src="{% static 'images/mealplan-generator.png' %}" alt="Dietary Needs Icon">
+                </div>
+                <h3 class="black-color">Meal Plan Generator</h3>
+                <p class="paragraph">
+                    This is where we make things much easier for you...
+                    Calorie counting or setting yourself any other nutritional targets is no use if you don’t know what to eat.
+                    Our meal planner takes this issue away by doing all the calculations for you and provides you with a full week’s worth of recipes tailored to both your nutritional and personal needs!
+                </p>
+            </div>
+
+            <div class="feature">
+                <div class="icon-container">
+                    <img src="{% static 'images/recipe-search.png' %}" alt="Dietary Needs Icon">
+                </div>
+                <h3 class="black-color">Powerful Recipe Search</h3>
+                <p class="paragraph">
+                    Instead of using our automatic recipe finder you may wish to enter recipes manually.
+                    We allow you to do this with the help of our powerful recipe search tool.
+                    You can set the criteria to return any type of recipe you wish, including only returning recipes that do or don’t contain a particular ingredient we also let you search recipes by all their nutritional values.
+                </p>
+            </div>
+
+            <div class="feature">
+                <div class="icon-container">
+                    <img src="{% static 'images/grocery-list.png' %}" alt="Adjust Meal Preferences Icon">
+                </div>
+                <h3 class="black-color">Grocery List</h3>
+                <p class="paragraph">
+                    After your meal plan has been created you can check out the grocery list function, which lets you know all the ingredients you need to make the recipes.
+                    Make use of the pantry function if you would like the grocery list to recognise when you already have certain ingredients stocked at home.
+                </p>
+            </div>
+        </div>
+    </div>
+    <br><br><br>
+
+    <div class="features-container" id="diet-plans">
+        <br><br>
+        <h2 class="black-color">Frequently Asked Questions</h2>
+        
+        <div class="frequent-question">
+            <button type="button" class="collapsible"><div class="coll-text">What is a personalized diet plan?<div class="more-img"><img src="{% static 'images/plus.png' %}" class="more" alt="more"></div></div></button>
+            <div class="content">
+                <p>A personalized diet plan is tailored to your individual needs, goals, and preferences, considering factors like age, gender, activity level, and any health conditions.</p>
+            </div>
+            <button type="button" class="collapsible"><div class="coll-text">How can I create my own diet plan on the website?<div class="more-img"><img src="{% static 'images/plus.png' %}" class="more" alt="more"></div></div></button>
+            <div class="content">
+                <p>You can fill in a simple questionnaire about your health goals, dietary preferences, and lifestyle. Based on this, we will generate a customized meal plan for you.</p>
+            </div>
+            <button type="button" class="collapsible"><div class="coll-text">Can I follow a diet plan if I have food allergies?<div class="more-img"><img src="{% static 'images/plus.png' %}" class="more" alt="more"></div></div></button>
+            <div class="content">
+                <p>Yes! You can specify your allergies or intolerances (e.g., gluten, nuts, dairy), and we will provide alternatives or exclude those foods from your plan.</p>
+            </div>
+            <button type="button" class="collapsible"><div class="coll-text">How do I know if the diet plan is suitable for me?<div class="more-img"><img src="{% static 'images/plus.png' %}" class="more" alt="more"></div></div></button>
+            <div class="content">
+                <p>The plan is based on the information you provide (age, weight, activity level, etc.). If you have any concerns, you can consult a nutritionist or adjust the plan as needed.</p>
+            </div>
+            <button type="button" class="collapsible"><div class="coll-text">What should I do if I feel hungry between meals?<div class="more-img"><img src="{% static 'images/plus.png' %}" class="more" alt="more"></div></div></button>
+            <div class="content">
+                <p>You can have healthy snacks such as fruits, nuts, or low-calorie options that align with your diet plan. Our website provides snack suggestions to keep you on track.</p>
+            </div>
+            <button type="button" class="collapsible"><div class="coll-text">Are the meal plans suitable for vegetarians or vegans?<div class="more-img"><img src="{% static 'images/plus.png' %}" class="more" alt="more"></div></div></button>
+            <div class="content">
+                <p>Absolutely! We offer vegetarian, vegan, and other plant-based options. You can choose your preferred diet type when creating your plan.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('show'); // Toggle the menu visibility
+        });
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+        
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+              content.style.display = "none";
+            } else {
+              content.style.display = "block";
+            }
+          });
+        }
+        </script>
+
+</body>
+</html>
